@@ -1,7 +1,7 @@
 """
 wsgi.py - Point d'entrée WSGI pour la production (gunicorn).
 
-Initialise le Visualizer à partir des variables d'environnement, puis expose
+Initialise le Analyzer à partir des variables d'environnement, puis expose
 l'objet Flask `app` attendu par gunicorn :
 
     gunicorn --bind 0.0.0.0:5000 wsgi:app
@@ -16,14 +16,14 @@ import os
 
 import app as appmod
 from app import app  # objet Flask exposé à gunicorn
-from app import Visualizer, _env_bool
+from app import Analyzer, _env_bool
 
 csv_path = os.path.abspath(os.environ.get("CSV_PATH", "data.csv"))
 gpx_env = os.environ.get("GPX_DIR")
 gpx_dir = os.path.abspath(gpx_env) if gpx_env else None
 
 # Initialise le singleton utilisé par les routes Flask (app.viz).
-appmod.viz = Visualizer(
+appmod.viz = Analyzer(
     csv_path,
     gpx_dir=gpx_dir,
     demo=_env_bool("DEMO"),

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------
-# Strava Heatmap Visualizer
+# Strava Analyzer
 #
 #   docker compose up --build            -> jeu de DÉMONSTRATION (bandeau)
 #   docker compose --profile real up     -> données réelles (montées en volume)
@@ -7,10 +7,10 @@
 services:
 
   # Service par défaut : données de démonstration FICTIVES embarquées.
-  visualizer:
+  analyzer:
     build: .
-    image: strava-visualizer:latest
-    container_name: strava-visualizer-demo
+    image: strava-analyzer:latest
+    container_name: strava-analyzer-demo
     ports:
       - "5000:5000"
     environment:
@@ -22,10 +22,10 @@ services:
 
   # Service optionnel : données réelles, montées en lecture seule (hors image).
   # Activé seulement avec :  docker compose --profile real up
-  visualizer-real:
+  analyzer-real:
     build: .
-    image: strava-visualizer:latest
-    container_name: strava-visualizer-real
+    image: strava-analyzer:latest
+    container_name: strava-analyzer-real
     profiles: ["real"]
     ports:
       - "5001:5000"

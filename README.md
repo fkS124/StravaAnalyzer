@@ -1,4 +1,4 @@
-# Strava Heatmap Visualizer
+# Strava Analyzer
 
 Application web (Flask + Leaflet) qui charge des activités Strava (CSV + traces
 GPX) et affiche une **heatmap interactive** avec filtres, tri, détection de
@@ -39,13 +39,13 @@ docker compose --profile real up --build
 ### Sans docker-compose (Docker seul)
 
 ```bash
-docker build -t strava-visualizer .
-docker run --rm -p 5000:5000 strava-visualizer            # démo
+docker build -t strava-analyzer .
+docker run --rm -p 5000:5000 strava-analyzer            # démo
 # données réelles montées en volume :
 docker run --rm -p 5000:5000 \
   -e DEMO=false -e DATASET_LABEL="Données réelles" \
   -e CSV_PATH=/data/data.csv -e GPX_DIR=/data/GPX \
-  -v "$(pwd)/data/real:/data:ro" strava-visualizer
+  -v "$(pwd)/data/real:/data:ro" strava-analyzer
 ```
 
 ---
@@ -153,9 +153,9 @@ python app.py --csv ../data/demo/data.csv --gpx ../data/demo/GPX --demo
 ## 8. Arborescence
 
 ```
-strava-visualizer/
+strava-analyzer/
 ├── app/                  # Code applicatif (Flask)
-│   ├── app.py            # Serveur + IHM (Visualizer, routes /api/*)
+│   ├── app.py            # Serveur + IHM (Analyzer, routes /api/*)
 │   ├── wsgi.py           # Point d'entrée gunicorn (production)
 │   ├── models.py         # Point, Activity, User, Zone, DenseZone, Intersection
 │   ├── file_manager.py   # Lecture CSV + GPX

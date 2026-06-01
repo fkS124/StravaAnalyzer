@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # ----------------------------------------------------------------------
-# Strava Heatmap Visualizer - image de production
+# Strava Analyzer - image de production
 # Les tests (unitaires + intégration) sont exécutés au démarrage AVANT le
 # serveur (cf. entrypoint.sh) : si un test échoue, le serveur ne démarre pas.
 # ----------------------------------------------------------------------

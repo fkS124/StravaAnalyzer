@@ -8,7 +8,7 @@ Lance le serveur :
 Puis ouvre http://localhost:5000 dans ton navigateur.
 
 Architecture (classes du diagramme) :
-    - Visualizer (cette classe) -> orchestre tout
+    - Analyzer (cette classe) -> orchestre tout
     - Menu, DragAndExploitTool, TemporaryTable -> côté client (HTML/JS)
     - FileManager, FilterManager, SortManager, SearchEngine, Heatmap -> côté Python
 """
@@ -28,9 +28,9 @@ from heatmap import Heatmap
 
 
 # ----------------------------------------------------------------------
-# Visualizer - classe principale (cf. diagramme)
+# Analyzer - classe principale (cf. diagramme)
 # ----------------------------------------------------------------------
-class Visualizer:
+class Analyzer:
     """
     Diagramme :
         - menu, dragTool, tempTable
@@ -52,9 +52,9 @@ class Visualizer:
         self.users_by_id = self._build_users()
         self.filterManager = FilterManager(users_by_id=self.users_by_id)
 
-        print(f"[Visualizer] {len(self.users_by_id)} athlètes")
+        print(f"[Analyzer] {len(self.users_by_id)} athlètes")
         total_pts = sum(len(a.track) for a in self.activities)
-        print(f"[Visualizer] {total_pts} points GPX au total")
+        print(f"[Analyzer] {total_pts} points GPX au total")
 
     def _build_users(self):
         """Construit la table des utilisateurs à partir des activités."""
@@ -241,7 +241,7 @@ INDEX_HTML = r"""
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<title>Strava Heatmap Visualizer</title>
+<title>Strava Analyzer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -701,7 +701,7 @@ def _env_bool(name, default=False):
 def main():
     # Les valeurs par défaut peuvent venir de variables d'environnement
     # (pratique pour Docker / docker-compose).
-    parser = argparse.ArgumentParser(description="Strava Heatmap Visualizer")
+    parser = argparse.ArgumentParser(description="Strava Analyzer")
     parser.add_argument("--csv", default=os.environ.get("CSV_PATH", "data.csv"),
                         help="Chemin du CSV d'activités (env : CSV_PATH)")
     parser.add_argument("--gpx", default=os.environ.get("GPX_DIR"),
@@ -724,13 +724,13 @@ def main():
     gpx_dir = os.path.abspath(args.gpx) if args.gpx else None
 
     global viz
-    viz = Visualizer(csv_path, gpx_dir=gpx_dir,
+    viz = Analyzer(csv_path, gpx_dir=gpx_dir,
                      demo=args.demo, dataset_label=args.dataset_label)
 
     shown_host = "localhost" if args.host in ("0.0.0.0", "127.0.0.1") else args.host
     url = f"http://{shown_host}:{args.port}"
     print(f"\n{'='*50}")
-    print(f"  Strava Heatmap Visualizer" + ("  [MODE DÉMO]" if args.demo else ""))
+    print(f"  Strava Analyzer" + ("  [MODE DÉMO]" if args.demo else ""))
     print(f"  -> {url}")
     print(f"{'='*50}\n")
 

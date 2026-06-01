@@ -3,7 +3,7 @@ Tests d'intégration : le serveur Flask et tous ses endpoints /api/*, en passant
 par le pipeline complet (FileManager -> filtres -> SearchEngine -> JSON).
 
 On construit un petit jeu de données réel (CSV + GPX sur disque), on charge un
-Visualizer et on interroge l'application via son test_client (aucun réseau).
+Analyzer et on interroge l'application via son test_client (aucun réseau).
 """
 import os
 import shutil
@@ -12,7 +12,7 @@ import unittest
 from datetime import datetime
 
 import app as appmod
-from app import Visualizer
+from app import Analyzer
 from tests._fixtures import write_gpx
 
 LAT, LON = 45.76, 4.83
@@ -43,7 +43,7 @@ class IntegrationBase(unittest.TestCase):
                   [(LAT, LON, T0), (45.80, 4.90, T0)])             # part loin ensuite
         write_gpx(os.path.join(gpx, "A3.gpx"), [(LAT, LON, T0)])
 
-        appmod.viz = Visualizer(csv_path, gpx_dir=gpx, demo=True,
+        appmod.viz = Analyzer(csv_path, gpx_dir=gpx, demo=True,
                                 dataset_label="Fixture")
         appmod.app.config["TESTING"] = True
         cls.client = appmod.app.test_client()
