@@ -1,0 +1,16 @@
+activity_id,athlete_name,activity_type,activity_date,athlete_id,activity_name,activity_location,activity_kudoers,activity_description,with_athletes
+D001,[DÉMO] Camille Laurent,Run,2025-01-06T08:00:00,U_DEMO_1,Boucle Tête d'Or,Lyon (démo fictive),19,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D002,[DÉMO] Camille Laurent,Run,2025-01-08T08:00:00,U_DEMO_1,Sortie quais,Lyon (démo fictive),27,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D003,[DÉMO] Karim Benali,Ride,2025-01-09T08:00:00,U_DEMO_2,Tour de Gerland,Lyon (démo fictive),26,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D004,[DÉMO] Karim Benali,Ride,2025-01-15T08:00:00,U_DEMO_2,Part-Dieu express,Lyon (démo fictive),17,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D005,[DÉMO] Léa Moreau,Run,2025-01-10T08:00:00,U_DEMO_3,Traversée Vaise,Lyon (démo fictive),4,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D006,[DÉMO] Léa Moreau,Run,2025-01-14T08:00:00,U_DEMO_3,Retour Confluence,Lyon (démo fictive),1,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D007,[DÉMO] Hugo Petit,Run,2025-01-12T08:00:00,U_DEMO_4,Retour Part-Dieu,Lyon (démo fictive),4,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D008,[DÉMO] Hugo Petit,Ride,2025-01-16T08:00:00,U_DEMO_4,Croix-Rousse à vélo,Lyon (démo fictive),20,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D009,[DÉMO] Sofia Garcia,Ride,2025-01-07T18:00:00,U_DEMO_5,Vélo du soir,Lyon (démo fictive),5,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D010,[DÉMO] Sofia Garcia,Run,2025-01-09T19:00:00,U_DEMO_5,Footing parc,Lyon (démo fictive),18,DONNÉE DE DÉMONSTRATION — FICTIVE,
+D101,[DÉMO] Camille Laurent,Run,2025-01-20T08:00:00,U_DEMO_1,Sortie club du dimanche,Lyon (démo fictive),4,DONNÉE DE DÉMONSTRATION — FICTIVE,U_DEMO_2;U_DEMO_3;U_DEMO_4;U_DEMO_5
+D102,[DÉMO] Karim Benali,Run,2025-01-20T08:00:45,U_DEMO_2,Sortie club du dimanche,Lyon (démo fictive),6,DONNÉE DE DÉMONSTRATION — FICTIVE,U_DEMO_1;U_DEMO_3;U_DEMO_4;U_DEMO_5
+D103,[DÉMO] Léa Moreau,Run,2025-01-20T08:00:30,U_DEMO_3,Sortie club du dimanche,Lyon (démo fictive),22,DONNÉE DE DÉMONSTRATION — FICTIVE,U_DEMO_1;U_DEMO_2;U_DEMO_4;U_DEMO_5
+D104,[DÉMO] Hugo Petit,Run,2025-01-20T08:01:30,U_DEMO_4,Sortie club du dimanche,Lyon (démo fictive),28,DONNÉE DE DÉMONSTRATION — FICTIVE,U_DEMO_1;U_DEMO_2;U_DEMO_3;U_DEMO_5
+D105,[DÉMO] Sofia Garcia,Run,2025-01-20T08:01:00,U_DEMO_5,Sortie club du dimanche,Lyon (démo fictive),4,DONNÉE DE DÉMONSTRATION — FICTIVE,U_DEMO_1;U_DEMO_2;U_DEMO_3;U_DEMO_4

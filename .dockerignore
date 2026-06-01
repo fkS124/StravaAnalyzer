@@ -1,0 +1,18 @@
+# Artefacts Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Données réelles : NON embarquées dans l'image par défaut (RGPD).
+# Elles sont montées en volume au runtime (cf. docker-compose, profil "real").
+data/real/
+
+# Non nécessaires dans l'image
+.git/
+.gitignore
+*.zip
+*.md
+tools/
+scripts/
+
+# NB : le dossier tests/ EST copié dans l'image (tests joués au démarrage).

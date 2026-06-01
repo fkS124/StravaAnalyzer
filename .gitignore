@@ -1,0 +1,31 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+*.log
+
+# --- Environnements virtuels ---
+venv/
+.venv/
+env/
+ENV/
+
+# --- Données réelles : EXCLUES du dépôt (RGPD / vie privée) ---
+# Seules les données de démonstration fictives (data/demo/) sont versionnées.
+# Les traces réelles se placent dans data/real/ en local (montées en volume Docker).
+data/real/*
+!data/real/.gitkeep
+!data/real/README.md
+
+# --- Sorties / artefacts générés ---
+*.html
+*.zip
+output/
+
+# --- OS / éditeurs ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
