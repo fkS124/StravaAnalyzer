@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 export PYTHONPATH="$PWD/app${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "==> Tests (unitaires + intégration)..."
-python -m unittest discover -t . -s tests -p "test_*.py"
+python -m unittest discover -t . -s tests -p "test_*.py" -v
 
 echo "==> Tests OK — démarrage du serveur (données de démonstration)"
 cd app

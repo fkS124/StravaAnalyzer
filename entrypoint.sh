@@ -9,7 +9,7 @@ cd "$ROOT"
 echo "=================================================="
 echo "  Tests (unitaires + intégration) avant démarrage"
 echo "=================================================="
-python -m unittest discover -t . -s tests -p "test_*.py"
+python -m unittest discover -t . -s tests -p "test_*.py" -v
 
 echo "=================================================="
 echo "  Tests OK — démarrage du serveur"
