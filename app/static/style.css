@@ -1,0 +1,71 @@
+html, body { margin:0; padding:0; height:100%; font-family: system-ui, sans-serif; }
+#map { position:absolute; top:0; bottom:0; left:0; right:0; z-index:0; }
+
+#panel {
+  position:absolute; top:12px; left:12px; z-index:1000;
+  width: 320px; max-height: calc(100% - 24px); overflow-y:auto;
+  background: rgba(255,255,255,0.97); border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2); padding: 14px;
+}
+#panel h1 { font-size: 18px; margin: 0 0 10px 0; color:#fc4c02; }
+#panel h2 { font-size: 14px; margin: 14px 0 6px 0; color:#333;
+            border-bottom:1px solid #eee; padding-bottom:4px; }
+#panel label { display:block; font-size:12px; color:#555; margin-top:6px; }
+#panel input, #panel select {
+  width:100%; box-sizing:border-box; padding:6px 8px;
+  border:1px solid #ccc; border-radius:6px; font-size:13px;
+}
+#panel button {
+  margin-top:8px; padding:8px 10px; border:none; border-radius:6px;
+  background:#fc4c02; color:white; cursor:pointer; font-size:13px;
+  font-weight:600; transition: background 0.15s;
+}
+#panel button:hover { background:#d63f02; }
+#panel button.secondary { background:#666; }
+#panel button.secondary:hover { background:#444; }
+#panel .row { display:flex; gap:6px; }
+#panel .row > * { flex:1; }
+#status {
+  margin-top:10px; padding:6px 8px; background:#f4f4f4;
+  border-radius:6px; font-size:12px; color:#444;
+}
+
+#tableBox {
+  position:absolute; bottom:12px; left:12px; right:360px; z-index:1000;
+  max-height: 220px; overflow:auto;
+  background: rgba(255,255,255,0.97); border-radius:10px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2); padding:8px; display:none;
+}
+#tableBox table { width:100%; border-collapse: collapse; font-size:11px; }
+#tableBox th, #tableBox td { padding:3px 6px; border-bottom:1px solid #eee; text-align:left; }
+#tableBox th { background:#fc4c02; color:white; position:sticky; top:0; }
+#tableBox .closeBtn {
+  position:absolute; top:6px; right:8px; cursor:pointer;
+  background:none; border:none; font-size:18px; color:#666;
+}
+
+#sortBox {
+  position:absolute; top:12px; right:12px; z-index:1000;
+  width: 280px; max-height: 60%; overflow:auto;
+  background: rgba(255,255,255,0.97); border-radius:10px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2); padding:10px; display:none;
+}
+#sortBox table { width:100%; border-collapse:collapse; font-size:12px; }
+#sortBox th, #sortBox td { padding:4px 6px; border-bottom:1px solid #eee; }
+#sortBox th { background:#444; color:white; }
+#sortBox .closeBtn {
+  position:absolute; top:6px; right:8px; cursor:pointer;
+  background:none; border:none; font-size:18px; color:#666;
+}
+
+/* Bandeau "données de démonstration" */
+#demoBanner {
+  position:absolute; top:0; left:0; right:0; z-index:1500;
+  background: repeating-linear-gradient(45deg,#ffc107,#ffc107 18px,#111 18px,#111 36px);
+  color:#fff; text-align:center; font-weight:800; font-size:13px;
+  letter-spacing:0.5px; padding:6px 12px; display:none;
+  text-shadow:0 0 4px #000, 0 0 4px #000; box-shadow:0 2px 8px rgba(0,0,0,0.4);
+}
+#demoBanner span { background:rgba(17,17,17,0.85); padding:3px 10px; border-radius:4px; }
+body.demo #panel { top:42px; max-height: calc(100% - 54px); }
+body.demo #sortBox { top:42px; }

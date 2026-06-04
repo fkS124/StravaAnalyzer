@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Strava Analyzer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div id="demoBanner"><span>⚠️ DONNÉES DE DÉMONSTRATION — FICTIVES (aucune personne réelle)</span></div>
+
+<div id="map"></div>
+
+<!-- Menu (cf. classe Menu du diagramme) -->
+<div id="panel">
+  <h1>🏃 Strava Heatmap</h1>
+
+  <h2>🔍 Filtres</h2>
+  <label>Nom d'athlète</label>
+  <input type="text" id="fName" placeholder="ex: Alice">
+
+  <label>Type d'activité</label>
+  <select id="fType"><option value="">— tous —</option></select>
+
+  <div class="row">
+    <button onclick="applyFilters()">Appliquer</button>
+    <button class="secondary" onclick="resetFilters()">Réinitialiser</button>
+  </div>
+
+  <h2>🛤️ Affichage</h2>
+  <div class="row">
+    <button onclick="toggleTracks()" id="trackBtn">Afficher les traces</button>
+  </div>
+
+  <h2>📊 Tri</h2>
+  <div class="row">
+    <button onclick="showSort('count')">Par nb d'activités</button>
+    <button onclick="showSort('duration')">Par durée totale</button>
+  </div>
+
+  <h2>🎯 Zones denses</h2>
+  <button onclick="toggleDenseZones()" id="dzBtn">Afficher les zones denses</button>
+
+  <h2>🤝 Intersections</h2>
+  <label>Athlète 1</label>
+  <select id="u1"></select>
+  <label>Athlète 2</label>
+  <select id="u2"></select>
+  <button onclick="showIntersections()">Détecter les intersections</button>
+
+  <h2>✏️ Sélection de zone</h2>
+  <p style="font-size:11px; color:#666; margin:0;">Utilise l'outil rectangle (en haut à droite de la carte) pour dessiner une zone.</p>
+  <button class="secondary" onclick="clearZone()">Effacer la zone</button>
+
+  <h2>📋 Tableau</h2>
+  <button onclick="toggleTable()">Afficher / cacher le tableau</button>
+
+  <div id="status">Chargement...</div>
+</div>
+
+<!-- TemporaryTable -->
+<div id="tableBox">
+  <button class="closeBtn" onclick="document.getElementById('tableBox').style.display='none'">×</button>
+  <h3 style="margin:0 0 6px 0; font-size:13px;">Activités filtrées</h3>
+  <table id="actTable">
+    <thead><tr>
+      <th>id</th><th>athlète</th><th>nom</th><th>type</th>
+      <th>date</th><th>lieu</th><th>kudos</th><th>pts GPX</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Sort result -->
+<div id="sortBox">
+  <button class="closeBtn" onclick="document.getElementById('sortBox').style.display='none'">×</button>
+  <h3 id="sortTitle" style="margin:0 0 6px 0; font-size:13px;">Tri</h3>
+  <table id="sortTable">
+    <thead><tr><th>#</th><th>Athlète</th><th>Valeur</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
