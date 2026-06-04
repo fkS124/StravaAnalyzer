@@ -62,52 +62,96 @@ class SearchEngine:
         return [a for a in activities if a.date and start <= a.date <= end]
 
     # ------------------------------------------------------------------
-    def findDenseZones(self, activities):
-        """
-        Stratégie : pour chaque activité, on regarde toutes les cellules de la
-        grille traversées par sa trace, et on incrémente le compteur de cellule
-        UNE SEULE FOIS par activité. Les cellules qui sont traversées par au
-        moins MIN_ACTIVITIES_FOR_DENSE activités distinctes deviennent des
-        DenseZones.
-        """
-        if not activities:
-            return []
-        lat_cell, lon_cell = _cell_sizes(self.DENSE_ZONE_RADIUS_KM,
-                                         _mean_lat(activities))
-        # cell -> set(activity_id) et liste des points pour calculer le barycentre
-        cell_to_acts = defaultdict(set)
-        cell_to_points = defaultdict(list)
-        cell_to_users = defaultdict(set)
+def findDenseZones(self, activities):
+    """
+    Agrège les points de toutes les activités sur une grille et identifie les
+    cellules traversées par au moins MIN_ACTIVITIES_FOR_DENSE activités distinctes.
 
-        for a in activities:
-            seen_cells = set()
-            for p in a.track[::self.TRACK_DOWNSAMPLE]:
-                key = (round(p.latitude / lat_cell),
-                       round(p.longitude / lon_cell))
-                seen_cells.add(key)
-                cell_to_points[key].append(p)
-            for key in seen_cells:
-                cell_to_acts[key].add(a.id)
-                cell_to_users[key].add(a.athleteId)
+    Les cellules denses sont ensuite regroupées en clusters via un flood-fill :
+    chaque cellule dense est d'abord étendue de MERGE_GAP cellules dans toutes les
+    directions, puis les zones élargies qui se touchent sont fusionnées en un seul
+    cluster. Seules les données des cellules originellement denses contribuent au
+    centre et aux compteurs du résultat — MERGE_GAP sert uniquement à décider si
+    deux zones doivent être fusionnées, pas à dilater la zone retournée.
 
-        zones = []
-        for key, act_ids in cell_to_acts.items():
-            if len(act_ids) < self.MIN_ACTIVITIES_FOR_DENSE:
-                continue
-            pts = cell_to_points[key]
-            avg_lat = sum(p.latitude for p in pts) / len(pts)
-            avg_lon = sum(p.longitude for p in pts) / len(pts)
-            z = DenseZone(
-                center=Point(avg_lat, avg_lon),
-                radiusKm=self.DENSE_ZONE_RADIUS_KM,
-            )
-            # On renseigne directement les compteurs (sans rappeler calculateDensity)
-            z.activityCount = len(act_ids)
-            z.userIds = sorted(cell_to_users[key])
-            zones.append(z)
+    Retourne une liste de DenseZone triée par activityCount décroissant.
+    """
+    if not activities:
+        return []
+    lat_cell, lon_cell = _cell_sizes(self.DENSE_ZONE_RADIUS_KM,
+                                     _mean_lat(activities))
+    cell_to_acts = defaultdict(set)
+    cell_to_points = defaultdict(list)
+    cell_to_users = defaultdict(set)
 
-        zones.sort(key=lambda z: z.activityCount, reverse=True)
-        return zones
+    for a in activities:
+        seen_cells = set()
+        for p in a.track[::self.TRACK_DOWNSAMPLE]:
+            key = (round(p.latitude / lat_cell),
+                   round(p.longitude / lon_cell))
+            seen_cells.add(key)
+            cell_to_points[key].append(p)
+        for key in seen_cells:
+            cell_to_acts[key].add(a.id)
+            cell_to_users[key].add(a.athleteId)
+
+    dense_cells = {
+        key for key, act_ids in cell_to_acts.items()
+        if len(act_ids) >= self.MIN_ACTIVITIES_FOR_DENSE
+    }
+
+    # Flood-fill sur les cellules denses élargies de MERGE_GAP,
+    # mais on n'agrège que les données des cellules originellement denses.
+    MERGE_GAP = 1
+    expanded = {
+        (cx + dx, cy + dy)
+        for (cx, cy) in dense_cells
+        for dx in range(-MERGE_GAP, MERGE_GAP + 1)
+        for dy in range(-MERGE_GAP, MERGE_GAP + 1)
+    }
+
+    visited = set()
+    zones = []
+
+    for start in dense_cells:
+        if start in visited:
+            continue
+        # BFS dans l'espace élargi
+        cluster_dense = set()
+        queue = [start]
+        visited.add(start)
+        while queue:
+            cx, cy = queue.pop()
+            if (cx, cy) in dense_cells:
+                cluster_dense.add((cx, cy))
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    nb = (cx + dx, cy + dy)
+                    if nb not in visited and nb in expanded:
+                        visited.add(nb)
+                        queue.append(nb)
+
+        # Calcul identique à l'original, mais sur tout le cluster
+        all_act_ids = set()
+        all_user_ids = set()
+        all_pts = []
+        for key in cluster_dense:
+            all_act_ids |= cell_to_acts[key]
+            all_user_ids |= cell_to_users[key]
+            all_pts.extend(cell_to_points[key])
+
+        avg_lat = sum(p.latitude for p in all_pts) / len(all_pts)
+        avg_lon = sum(p.longitude for p in all_pts) / len(all_pts)
+        z = DenseZone(
+            center=Point(avg_lat, avg_lon),
+            radiusKm=self.DENSE_ZONE_RADIUS_KM,
+        )
+        z.activityCount = len(all_act_ids)
+        z.userIds = sorted(all_user_ids)
+        zones.append(z)
+
+    zones.sort(key=lambda z: z.activityCount, reverse=True)
+    return zones
 
     # ------------------------------------------------------------------
     def detectIntersections(self, activities1, activities2):
