@@ -1,5 +1,5 @@
 """
-app.py - Serveur Flask qui sert la heatmap folium avec une IHM web.
+app.py - Serveur Flask qui sert l'IHM web (carte Leaflet) et les API JSON.
 
 Lance le serveur :
     python app.py
@@ -10,7 +10,8 @@ Puis ouvre http://localhost:5000 dans ton navigateur.
 Architecture (classes du diagramme) :
     - Analyzer (cette classe) -> orchestre tout
     - Menu, DragAndExploitTool, TemporaryTable -> côté client (HTML/JS)
-    - FileManager, FilterManager, SortManager, SearchEngine, Heatmap -> côté Python
+    - FileManager, FilterManager, SortManager, SearchEngine -> côté Python
+      (le rendu de la heatmap est fait côté client par Leaflet, cf. static/main.js)
 """
 import argparse
 import os
@@ -24,7 +25,6 @@ from file_manager import FileManager
 from filter_manager import FilterManager
 from sort_manager import SortManager
 from search_engine import SearchEngine
-from heatmap import Heatmap
 
 
 # ----------------------------------------------------------------------
@@ -43,7 +43,6 @@ class Analyzer:
         self.dataset_label = dataset_label
         # Services (classes du diagramme)
         self.fileManager = FileManager(gpx_dir=gpx_dir)
-        self.heatmap = Heatmap()
         self.searchEngine = SearchEngine()
         self.sortManager = SortManager()
 
@@ -73,7 +72,7 @@ app = Flask(__name__)
 viz = None  # initialisée dans main()
 
 
-# ----- Page principale : heatmap folium + UI HTML/JS superposée -----
+# ----- Page principale : IHM HTML/JS (carte Leaflet) -----
 @app.route("/")
 def index():
     return render_template("index.html")

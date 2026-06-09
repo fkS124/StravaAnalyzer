@@ -83,7 +83,8 @@ GPX correspondant est ignorée** au chargement.
 
 ## 4. Fonctionnalités de l'IHM
 
-- **Heatmap** : agrège tous les points de toutes les traces filtrées.
+- **Heatmap** : agrège tous les points de toutes les traces filtrées (rendu
+  côté navigateur par Leaflet + plugin `leaflet.heat`).
 - **Filtres** (cumulatifs) : nom d'athlète, type d'activité, zone dessinée à la
   souris (outil rectangle, en haut à droite de la carte).
 - **Affichage des traces** : polylignes individuelles, une couleur par athlète.
@@ -98,7 +99,8 @@ GPX correspondant est ignorée** au chargement.
 ## 5. Tests (joués AVANT le démarrage du serveur)
 
 La suite de tests valide chaque fonctionnalité (parsing CSV/GPX, filtres, tri,
-zones denses, intersections, heatmap) et l'intégration des endpoints HTTP.
+zones denses, intersections) et l'intégration des endpoints HTTP (dont
+`/api/heatmap`).
 
 - **En Docker** : `entrypoint.sh` lance les tests à chaque démarrage du
   conteneur. **Si un test échoue, le serveur ne démarre pas.**
@@ -162,7 +164,8 @@ strava-analyzer/
 │   ├── filter_manager.py # Filtres
 │   ├── sort_manager.py   # Tri
 │   ├── search_engine.py  # Zones denses + intersections
-│   └── heatmap.py        # Heatmap (folium)
+│   ├── static/           # IHM : main.js (carte Leaflet) + style.css
+│   └── templates/        # index.html
 ├── tests/                # Tests unitaires + intégration (joués au démarrage)
 ├── scripts/
 │   ├── test.sh           # lance la suite de tests
